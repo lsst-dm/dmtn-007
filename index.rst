@@ -103,8 +103,7 @@ Interesting findings include:
    optimization results in model fits with similar characteristics to
    those of the ``dipoleMeasurement`` code. For example, a plot of
    recovered x-coordinate of dipoles of fixed flux with gradually
-   increasing separations is shown
-   `here <notebooks/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_files/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_20_2.png>`__:
+   increasing separations is shown here:
 
  |Figure 1|
 
@@ -115,10 +114,9 @@ existing ``dipoleMeasurement`` code.
 A primary result of comparisons of both dipole fitting routines showed
 that if unconstrained, they would have difficulty finding accurate
 fluxes (and separations) at separations smaller than ~1 FWHM. This is
-best shown
-`here <notebooks/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_files/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_23_1.png>`__,
-which shows the fitted dipole fluxes as a function of dipole separation
-for a number of realizations per separation (and input flux of 3000).
+best shown below, where we plotted the fitted dipole fluxes as a
+function of dipole separation for a number of realizations per
+separation (and input flux of 3000).
 
  |Figure 2|
 
@@ -177,11 +175,6 @@ is an example:
 
  |Figure 3|
 
-.. raw:: html
-   <!--
-   ![Figure 1](notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_4_0.png)
-   -->
-
 There are many such examples, and this strong covariance between
 amplitude (or flux) and dipole separation is most easiest shown by
 plotting error contours from a `least-squares fit to simulated 1-d
@@ -189,11 +182,6 @@ dipole
 data <notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_7_2.png>`__:
 
  |Figure 4|
-
-.. raw:: html
-   <!--
-   ![Figure2](notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_7_2.png)
-   -->
 
 Here are the error contours, where the blue dot indicates the input
 parameters (used to generate the data), the yellow dot shows the
@@ -321,7 +309,7 @@ All IPython notebooks with relevant code and additional figures (from
 which the figures of this report are derived) may be found `at this
 Github repo <https://github.com/djreiss/lsst-dipole>`__.
 
-.. |Figure 1| image:: notebooks/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_files/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_20_2.png
+.. |Figure 1| image:: /_static/figure_01.png
 .. |Figure 2| image:: notebooks/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_files/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_23_1.png
 .. |Figure 3| image:: notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_4_0.png
               :width: 60 %
