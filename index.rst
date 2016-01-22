@@ -322,8 +322,8 @@ Github repo <https://github.com/djreiss/lsst-dipole>`__.
               :width: 45 %
 .. |Figure 10| image:: /_static/figure_10.png
               :width: 45 %
-.. |Figure 11| image:: notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_files/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_42_2.png
+.. |Figure 11| image:: /_static/figure_11.png
               :width: 45 %
-.. |Figure 12| image:: notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_files/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_43_2.png
+.. |Figure 12| image:: /_static/figure_12.png
               :width: 45 %
 .. |Figure 13| image:: notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_files/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_21_1.png
