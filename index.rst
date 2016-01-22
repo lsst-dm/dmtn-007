@@ -125,7 +125,10 @@ in the same (positive) flux axis.
 
 Below we investigate this issue and find that it arises from the extreme
 covariance between the dipole separation and flux parameters, which
-exacerbates the optimizers at low signal-to-noise.
+exacerbates the optimization at low signal-to-noise.
+
+Additional comparisons may be found in the `IPython notebooks
+<https://github.com/djreiss/lsst-dipole>`__.
 
 Putative issues with the ``dipoleMeasurement`` PSF fitting algorithm
 ====================================================================
@@ -168,18 +171,16 @@ Generic dipole fitting complications
 There is a degeneracy in dipole fitting between closely-separated
 dipoles from bright sources and widely-separated dipoles from faint
 sources. This is further explored using 1-d simulated dipoles in `this
-notebook <notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise.ipynb>`__.
+notebook <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise.ipynb>`__.
 
-`Here <notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_4_0.png>`__
-is an example:
+Here is an example:
 
  |Figure 3|
 
 There are many such examples, and this strong covariance between
 amplitude (or flux) and dipole separation is most easiest shown by
 plotting error contours from a `least-squares fit to simulated 1-d
-dipole
-data <notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_7_2.png>`__:
+dipole data:
 
  |Figure 4|
 
@@ -215,8 +216,7 @@ As an example, I performed a fit to the same data as shown above, but
 included the "pre-subtracted" data as two additional planes. In this
 example, I chose to down-weight the pre-subtracted data points to 1/20th
 (5%) of the subtracted data points for the least-squares fit. The
-resulting contours are
-`here <notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_16_1.png>`__:
+resulting contours are shown below:
 
  |Figure 6|
  
@@ -236,17 +236,15 @@ steep-gradient backgrounds. Investigate the tolerance of very low
 weighting (5 to 10%) on the pre-subtraction planes in order to ensure
 that we are "mostly" fitting on the imDiff plane.
 
-This same degeneracy is seen in simulated 2-d dipoles, as shown in `this
-notebook <notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__.
-First, a brief overview. Here is `a simulated 2-d
-dipole <notebooks/7c.%20dipole%20fit%20error%20contours_files/7c.%20dipole%20fit%20error%20%20contours_10_3.png>`__
-and the footprints for positive and negative detected sources in the
-image:
+This same degeneracy is seen in simulated 2-d dipoles, as shown in
+`this notebook
+<https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__.
+First, a brief overview. Here is a simulated 2-d dipole and the
+footprints for positive and negative detected sources in the image:
 
  |Figure 7|
 
-and here is the `least-squares model fit and
-residuals <notebooks/7c.%20dipole%20fit%20error%20contours_files/7c.%20dipole%20fit%20error%20contours_10_4.png>`__:
+and here are the least-squares model fit and residuals:
 
  |Figure 8|
 
@@ -261,13 +259,13 @@ right):
 
 These contours look surprisingly similar for fits to closely-separated
 and widely-separated dipoles of (otherwise) similar parameterization
-(see the
-`notebook <notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__ for
-more).
+(see the `notebook
+<https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__
+for more).
 
 After updating the dipole fit code to include the pre-subtraction images
 (again with 5% weighting), as shown in `this
-notebook <notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit.ipynb>`__,
+notebook <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit.ipynb>`__,
 the fits once again improves.
 
 The new (constrained) result, fitting to the same simulated dipole data
@@ -275,11 +273,10 @@ The new (constrained) result, fitting to the same simulated dipole data
 
  |Figure 11| |Figure 12|
 
-Adding the constraining data to the fit unsurprisingly improves the flux
-fits for a variety of dipole separations (the figure
-`below <notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_files/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit_21_1.png>`__
-may be compared with the similar one shown `above <#figure2>`__,
-generated without any constraint).
+Adding the constraining data to the fit unsurprisingly improves the
+flux fits for a variety of dipole separations (the figure below may be
+compared with the similar one shown `above <#figure2>`__, generated
+without any constraint).
 
  |Figure 13|
 
@@ -310,8 +307,8 @@ which the figures of this report are derived) may be found `at this
 Github repo <https://github.com/djreiss/lsst-dipole>`__.
 
 .. |Figure 1| image:: /_static/figure_01.png
-.. |Figure 2| image:: notebooks/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_files/7b.%20test%20new%20%28fixed%21%29%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20%28more%20realistic%20noise%29_23_1.png
-.. |Figure 3| image:: notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_4_0.png
+.. |Figure 2| image:: /_static/figure_02.png
+.. |Figure 3| image:: /_static/figure_03.png
               :width: 60 %
 .. |Figure 4| image:: notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_7_2.png
               :width: 60 %
