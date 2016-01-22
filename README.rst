@@ -2,7 +2,7 @@
 DMTN-007 Dipole characterization for image differencing
 #######################################################
 
-An ianalysis of the cdipole measurement task as currently applied in the LSST image differencing pipeline.
+An analysis of the dipole measurement task as currently applied in the LSST image differencing pipeline.
 
 View this technote at http://dmtn-007.lsst.io or see a preview of the
 current version in `this repo`_
