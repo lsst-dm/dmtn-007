@@ -316,8 +316,8 @@ Github repo <https://github.com/djreiss/lsst-dipole>`__.
               :width: 60 %
 .. |Figure 6| image:: /_static/figure_06.png
               :width: 60 %
-.. |Figure 7| image:: notebooks/7c.%20dipole%20fit%20error%20contours_files/7c.%20dipole%20fit%20error%20contours_10_3.png
-.. |Figure 8| image:: notebooks/7c.%20dipole%20fit%20error%20contours_files/7c.%20dipole%20fit%20error%20contours_10_4.png
+.. |Figure 7| image:: /_static/figure_07.png
+.. |Figure 8| image:: /_static/figure_08.png
 .. |Figure 9| image:: notebooks/7c.%20dipole%20fit%20error%20contours_files/7c.%20dipole%20fit%20error%20contours_32_1.png
               :width: 45 %
 .. |Figure 10| image:: notebooks/7c.%20dipole%20fit%20error%20contours_files/7c.%20dipole%20fit%20error%20contours_31_1.png
