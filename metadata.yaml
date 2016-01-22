@@ -17,7 +17,7 @@ doc_title: 'Dipole characterization for image differencing'
 
 # Author names, ordered as a list. Each author name should be formatted as 'First Last'
 authors:
-    - 'Reiss David'
+    - 'David Reiss'
 
 # Current document version
 last_revised: '2016-01-22'
@@ -34,7 +34,7 @@ version: '1.0'
 copyright: '2016, AURA/LSST'
 
 # Description. A short, 1-2 sentence statemement used by document indices.
-description: 'An ianalysis of the cdipole measurement task as currently applied in the LSST image differencing pipeline.'
+description: 'An analysis of the dipole measurement task as currently applied in the LSST image differencing pipeline.'
 
 # Abstract, if available
 # abstract: >
