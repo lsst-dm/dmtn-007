@@ -310,7 +310,7 @@ Github repo <https://github.com/djreiss/lsst-dipole>`__.
 .. |Figure 2| image:: /_static/figure_02.png
 .. |Figure 3| image:: /_static/figure_03.png
               :width: 60 %
-.. |Figure 4| image:: notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_7_2.png
+.. |Figure 4| image:: /_static/figure_04.png
               :width: 60 %
 .. |Figure 5| image:: notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_files/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise_8_2.png
               :width: 60 %
