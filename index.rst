@@ -151,7 +151,7 @@ evaluated further if deemed important):
    vectorized ``afw::Image`` function calls).
 2. It spends a lot of time floating around near the minimum and perhaps
    can be cut off more quickly (note this may be exacerbated by (1.)).
-3. Perhaps the starting parameters (derived from the naive coordinates)
+3. Perhaps the starting parameters (derived from the heavy footprints)
    could be made more accurate. At least it looks like the starting flux
    values are being initialized from the peak pixel value in the
    footprint, rather than (an estimate of) the source flux.
