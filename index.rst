@@ -283,21 +283,22 @@ without any constraint).
 Additional recommendations and tests
 ====================================
 
-1. complete refactoring of existing ``dipoleMeasurement`` code.
-2. investigate the robustness of this updated fitting method, including
-   variable backgrounds (with large gradients) that are removed in the
-   image difference but bright and noisy in the template/science images.
-3. investigate adding these constraints to the existing
-   ``dipoleMeasurement`` code, including parameter windowing. This will
-   require refactoring of ``diffIm`` code to pass pre-subtraction images
-   to ``dipoleMeasurement``.
+1. Complete refactoring of existing ``dipoleMeasurement`` code.
+2. Investigate the robustness of the updated (constrained) fitting
+   method, including variable backgrounds (with large gradients) that
+   are removed in the image difference but bright and noisy in the
+   template/science images.
+3. Investigate adding the constraints to the existing
+   ``dipoleMeasurement`` code, including parameter windowing. This
+   will require refactoring of ``diffIm`` code to pass pre-subtraction
+   images/heavy footprints to ``dipoleMeasurement``.
 4. Investigate `iminuit <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb#>`__
    package - possibly more robust and/or more efficient minimization?
 
 Additional random dipole characterization thoughts
 ====================================
 
-... `and questions: <https://github.com/djreiss/lsst-dipole/blob/master/README.md>`__ (in no particular order).
+... and questions are `here <https://github.com/djreiss/lsst-dipole/blob/master/README.md>`__ (in no particular order).
 
 IPython notebooks
 =================
