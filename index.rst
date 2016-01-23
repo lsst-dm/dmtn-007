@@ -86,12 +86,14 @@ Evaluation of dipole fitting accuracy, robustness
 =====================================
 
 We implemented a faux dipole generation routine (separate from LSST
-code, i.e., using ``numpy`` only) with a double Gaussian PSF and
-realistic non-background-limited (Poisson) noise. We then implemented
-a separate 2-D dipole fitting function in "pure" python (we used the
-``lmfit`` package, which is basically a wrapper around
-``scipy.optimize.leastsq()``). The dipole (and the function which is
-minimized) is generated using a 2-D double Gaussian.
+code, i.e., using ``numpy`` only) with a double Gaussian PSF (default
+sigma 2.0; see `notebooks
+<https://github.com/djreiss/lsst-dipole/tree/master/notebooks>`__ for
+additional parameters) and realistic non-background-limited (Poisson)
+noise. We then implemented a separate 2-D dipole fitting function in
+"pure" python (we used the ``lmfit`` package, which is basically a
+wrapper around ``scipy.optimize.leastsq()``). The dipole (and the
+function which is minimized) is generated using a 2-D double Gaussian.
 
 Interesting findings include:
 
@@ -109,11 +111,12 @@ Interesting findings include:
 
 Note in all figures, including this one, "New" refers to the "pure
 python" dipole fitting routine, and "Old" refers to the fitting in the
-existing ``dipoleMeasurement`` code.
+existing ``dipoleMeasurement`` code. These are for (default) PSFs with
+sigma of 2.0. All units are pixels.
 
 A primary result of comparisons of both dipole fitting routines showed
 that if unconstrained, they would have difficulty finding accurate
-fluxes (and separations) at separations smaller than ~1 FWHM. This is
+fluxes (and separations) at separations smaller than ~1 sigma. This is
 best shown below, where we plotted the fitted dipole fluxes as a
 function of dipole separation for a number of realizations per
 separation (and input flux of 3000).
@@ -133,8 +136,9 @@ Additional comparisons may be found in the `IPython notebooks
 Putative issues with the ``dipoleMeasurement`` PSF fitting algorithm
 ====================================================================
 
-The PSF fitting is slow. It seems to take ~60MS for some fits
-(especially for closely-separated dipoles).
+The PSF fitting is slow. It takes ~60ms for some optimizations on my
+fast Macbook Pro (longer times, especially for closely-separated
+dipoles).
 
 Why is it slow? Thoughts on possible reasons (they will need to be
 evaluated further if deemed important):
