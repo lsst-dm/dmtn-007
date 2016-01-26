@@ -162,8 +162,8 @@ evaluated further if deemed important):
    calc's are really expensive though).
 6. There are no constraints on the parameters (e.g. ``fluxPos`` > 0;
    ``fluxNeg`` < 0; possibly ``fluxPos`` = ``fluxNeg``; centroid
-   locations, etc.). Fixing this is also likely to increase fitting
-   accuracy (see below).
+   locations from pixel coordinates of max./min. signal, etc.). Fixing
+   this is also likely to increase fitting accuracy (see below).
 
 Note: It seems that the dipole fit is a lot faster for dipoles of
 greater separation than for those that are closer (it seems the
@@ -209,9 +209,9 @@ are:
    minimization.
 3. A combination of (1.) and (2.).
 
-It is noted that these solutions will not help in cases of dipoles
-detected on top of bright backgrounds (or backgrounds with large
-gradients), such as cases of a faint dipole superimposed on a bright-ish
+It is noted that these solutions may not help in all cases of dipoles
+on top of bright backgrounds (or backgrounds with large gradients),
+such as cases of a faint dipole superimposed on a bright-ish
 background galaxy. But these cases will be rare, and I believe we can
 adjust the weighting of the pre-subtracted image data (i.e., in [2]
 above) to compensate (see below).
@@ -228,11 +228,13 @@ Unsurprisingly, including the original data serves to significantly
 constrain the fit and reduce the degeneracy.
 
 I believe that this is a possible way forward in the dipole
-characterization task in ``dipoleMeasurement``. The primary drawback is
-if the source falls on a bright background or a background with a steep
-gradient - which is what we do the ``imDiff`` for anyway. This will also
-require passing the two pre-subtraction planes (and their variance
-planes) to the dipole characterization task.
+characterization task in ``dipoleMeasurement``. The primary drawback
+is if the source falls on a bright background or a background with a
+steep gradient - which is what we do the ``imDiff`` for anyway - then
+the pre-subtraction data may provide an inaccurate measure of the
+original source. This will also require passing the two
+pre-subtraction planes (and their variance planes) to the dipole
+characterization task.
 
 *Recommendation:* Test the dipole fitting including using the additional
 (pre-subtraction) data planes, including simulating bright and
@@ -296,23 +298,49 @@ Additional recommendations and tests
    ``dipoleMeasurement`` code, including parameter windowing. This
    will require refactoring of ``diffIm`` code to pass pre-subtraction
    images/heavy footprints to ``dipoleMeasurement``.
-4. Investigate `iminuit <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb#>`__
+4. Investigate `iminuit <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb>`__
    package - possibly more robust and/or more efficient minimization?
-
-Additional random dipole characterization thoughts
-====================================
-
-... and questions are `here <https://github.com/djreiss/lsst-dipole/blob/master/README.md>`__ (in no particular order).
 
 IPython notebooks
 =================
 
 All IPython notebooks with relevant code and additional figures (from
 which the figures of this report are derived) may be found `at this
-Github repo <https://github.com/djreiss/lsst-dipole>`__.
+Github repo <https://github.com/djreiss/lsst-dipole>`__. Many of these
+were exploratory; below are the highlights (from which the figures
+above were extracted):
+
+* `Final, versions of direct, benchmarked comparisons
+  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7b.%20test%20new%20(fixed!)%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20(more%20realistic%20noise).ipynb>`__
+  between new "pure python" dipole fitting routines and existing
+  ``ip_diffim`` codes on sample dipoles with realistic noise. This
+  notebook does not include the "constrained" optimizations but does
+  include bounding boxes on parameters during optimization.
+
+* `Demonstration of constructing dipole fit error profiles
+  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__,
+  revealing covariance between dipole source flux and separation.
+
+* `Tests using simplified 1-d dipoles
+  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise.ipynb>`__,
+  including demonstrations of flux/separation covariance and
+  integration of pre-subtraction data to alleviate the degeneracy.
+
+* `Update the 2-D dipole fits to include the ability to constrain fit
+  parameters using pre-subtraction data
+  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit.ipynb>`__,
+  including error contours.
+
+Additional random dipole characterization thoughts
+====================================
+
+... and questions are `here <https://github.com/djreiss/lsst-dipole/blob/master/README.md>`__ (in no particular order).
+
 
 .. |Figure 1| image:: /_static/figure_01.png
+              :width: 100 %
 .. |Figure 2| image:: /_static/figure_02.png
+              :width: 100 %
 .. |Figure 3| image:: /_static/figure_03.png
               :width: 60 %
 .. |Figure 4| image:: /_static/figure_04.png
@@ -322,7 +350,9 @@ Github repo <https://github.com/djreiss/lsst-dipole>`__.
 .. |Figure 6| image:: /_static/figure_06.png
               :width: 60 %
 .. |Figure 7| image:: /_static/figure_07.png
+              :width: 70 %
 .. |Figure 8| image:: /_static/figure_08.png
+              :width: 50 %
 .. |Figure 9| image:: /_static/figure_09.png
               :width: 45 %
 .. |Figure 10| image:: /_static/figure_10.png
@@ -332,3 +362,4 @@ Github repo <https://github.com/djreiss/lsst-dipole>`__.
 .. |Figure 12| image:: /_static/figure_12.png
               :width: 45 %
 .. |Figure 13| image:: /_static/figure_13.png
+              :width: 100 %
