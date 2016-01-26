@@ -114,6 +114,9 @@ python" dipole fitting routine, and "Old" refers to the fitting in the
 existing ``dipoleMeasurement`` code. These are for (default) PSFs with
 sigma of 2.0. All units are pixels.
 
+**For all figures, click on the image to see a larger version for easier
+reading of axis values.**
+
 A primary result of comparisons of both dipole fitting routines showed
 that if unconstrained, they would have difficulty finding accurate
 fluxes (and separations) at separations smaller than ~1 sigma. This is
@@ -257,9 +260,9 @@ and here are the least-squares model fit and residuals:
 A contour plot of confidence interval contours shows a similar
 degeneracy as that described above, here between dipole flux and
 x-coordinate of the positive dipole lobe (below, left). This is also
-seen in the covariance between x- and y-coordinate of the positive lobe
-centroid, which points generally toward the dipole centroid (below,
-right):
+seen in the covariance between x- and y-coordinate of the positive
+lobe centroid, which points generally toward the dipole centroid
+(below, right):
 
  |Figure 9| |Figure 10|
 
@@ -304,11 +307,11 @@ Additional recommendations and tests
 IPython notebooks
 =================
 
-All IPython notebooks with relevant code and additional figures (from
-which the figures of this report are derived) may be found `at this
+All IPython notebooks with relevant code and additional figures (of
+which the figures of this report are a subset) may be found `at this
 Github repo <https://github.com/djreiss/lsst-dipole>`__. Many of these
-were exploratory; below are the highlights (from which the figures
-above were extracted):
+were exploratory; below are the highlights (i.e., the ones from which
+the figures of this report were extracted):
 
 * `Final, versions of direct, benchmarked comparisons
   <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7b.%20test%20new%20(fixed!)%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20(more%20realistic%20noise).ipynb>`__
