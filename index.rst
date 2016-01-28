@@ -331,7 +331,7 @@ the figures of this report were extracted):
 
 * `Update the 2-D dipole fits to include the ability to constrain fit
   parameters using pre-subtraction data
-  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit.ipynb>`__,
+  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20planes%20to%20constrain%202-d%20dipole%20fit.ipynb>`__,
   including error contours.
 
 Additional random dipole characterization thoughts
