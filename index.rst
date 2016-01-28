@@ -87,8 +87,7 @@ Evaluation of dipole fitting accuracy, robustness
 
 We implemented a faux dipole generation routine (separate from LSST
 code, i.e., using ``numpy`` only) with a double Gaussian PSF (default
-sigma 2.0; see `notebooks
-<https://github.com/djreiss/lsst-dipole/tree/master/notebooks>`__ for
+sigma 2.0; see `notebooks <https://github.com/lsst-dm/dmtn-007/tree/master/notebooks>`__ for
 additional parameters) and realistic non-background-limited (Poisson)
 noise. We then implemented a separate 2-D dipole fitting function in
 "pure" python (we used the ``lmfit`` package, which is basically a
@@ -134,7 +133,7 @@ covariance between the dipole separation and flux parameters, which
 exacerbates the optimization at low signal-to-noise.
 
 Additional comparisons may be found in the `IPython notebooks
-<https://github.com/djreiss/lsst-dipole>`__.
+<https://github.com/lsst-dm/dmtn-007/tree/master/notebooks>`__.
 
 Putative issues with the ``dipoleMeasurement`` PSF fitting algorithm
 ====================================================================
@@ -178,7 +177,7 @@ Generic dipole fitting complications
 There is a degeneracy in dipole fitting between closely-separated
 dipoles from bright sources and widely-separated dipoles from faint
 sources. This is further explored using 1-d simulated dipoles in `this
-notebook <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise.ipynb>`__.
+notebook <https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/8a_1d_dipole_fitting_and_contours.ipynb>`__.
 
 Here is an example:
 
@@ -247,7 +246,7 @@ that we are "mostly" fitting on the imDiff plane.
 
 This same degeneracy is seen in simulated 2-d dipoles, as shown in
 `this notebook
-<https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__.
+<https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/7c_plot_dipole_fit_error_contours.ipynb>`__.
 First, a brief overview. Here is a simulated 2-d dipole and the
 footprints for positive and negative detected sources in the image:
 
@@ -269,12 +268,12 @@ lobe centroid, which points generally toward the dipole centroid
 These contours look surprisingly similar for fits to closely-separated
 and widely-separated dipoles of (otherwise) similar parameterization
 (see the `notebook
-<https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__
+<https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/7c_plot_dipole_fit_error_contours.ipynb>`__
 for more).
 
 After updating the dipole fit code to include the pre-subtraction images
 (again with 5% weighting), as shown in `this
-notebook <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20%22planes%22%20to%20constrain%202-d%20dipole%20fit.ipynb>`__,
+notebook <https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/8b_2d_dipole_fitting_with_new_constraints.ipynb>`__,
 the fits once again improves.
 
 The new (constrained) result, fitting to the same simulated dipole data
@@ -301,43 +300,46 @@ Additional recommendations and tests
    ``dipoleMeasurement`` code, including parameter windowing. This
    will require refactoring of ``diffIm`` code to pass pre-subtraction
    images/heavy footprints to ``dipoleMeasurement``.
-4. Investigate `iminuit <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb>`__
+4. Investigate `iminuit
+   <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb>`__
    package - possibly more robust and/or more efficient minimization?
 
 IPython notebooks
 =================
 
-All IPython notebooks with relevant code and additional figures (of
-which the figures of this report are a subset) may be found `at this
-Github repo <https://github.com/djreiss/lsst-dipole>`__. Many of these
-were exploratory; below are the highlights (i.e., the ones from which
-the figures of this report were extracted):
+All figures and methods investigated for this report were generated
+using IPython notebooks.  The relevant notebooks may be found `in this
+repo
+<https://github.com/lsst-dm/dmtn-007/tree/master/notebooks/>`__. Much
+of the code in these notebooks is exploratory; below are the
+highlights (i.e., the ones from which the figures of this report were
+extracted):
 
 * `Final, versions of direct, benchmarked comparisons
-  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7b.%20test%20new%20(fixed!)%20and%20ip_diffim%20dipole%20fitting%20on%20same%20sources-Copy3%20(more%20realistic%20noise).ipynb>`__
+  <https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/7b_compare_new_and_old_dipole_fitting.ipynb>`__
   between new "pure python" dipole fitting routines and existing
   ``ip_diffim`` codes on sample dipoles with realistic noise. This
   notebook does not include the "constrained" optimizations but does
   include bounding boxes on parameters during optimization.
 
 * `Demonstration of constructing dipole fit error profiles
-  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/7c.%20dipole%20fit%20error%20contours.ipynb>`__,
+  <https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/7c_plot_dipole_fit_error_contours.ipynb>`__,
   revealing covariance between dipole source flux and separation.
 
 * `Tests using simplified 1-d dipoles
-  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8a.%20simple%201d%20dipole%20plotting%20-%20more%20realistic%20noise.ipynb>`__,
+  <https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/8a_1d_dipole_fitting_and_contours.ipynb>`__,
   including demonstrations of flux/separation covariance and
   integration of pre-subtraction data to alleviate the degeneracy.
 
 * `Update the 2-D dipole fits to include the ability to constrain fit
   parameters using pre-subtraction data
-  <https://github.com/djreiss/lsst-dipole/blob/master/notebooks/8b.%20include%20down-weighted%20pre-subtraction%20image%20planes%20to%20constrain%202-d%20dipole%20fit.ipynb>`__,
+  <https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/8b_2d_dipole_fitting_with_new_constraints.ipynb>`__,
   including error contours.
 
 Additional random dipole characterization thoughts
 ====================================
 
-... and questions are `here <https://github.com/djreiss/lsst-dipole/blob/master/README.md>`__ (in no particular order).
+... and questions are `here <https://github.com/lsst-dm/dmtn-007/blob/master/notebooks/README.md>`__ (in no particular order).
 
 
 .. |Figure 1| image:: /_static/figure_01.png
