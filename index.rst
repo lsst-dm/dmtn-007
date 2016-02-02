@@ -304,11 +304,11 @@ Additional recommendations and tests
    <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb>`__
    package - possibly more robust and/or more efficient minimization?
 
-IPython notebooks
+Appendix I. IPython notebooks
 =================
 
 All figures and methods investigated for this report were generated
-using IPython notebooks.  The relevant notebooks may be found `in this
+using IPython notebooks. The relevant notebooks may be found `in this
 repo
 <https://github.com/lsst-dm/dmtn-007/tree/master/_notebooks/>`__. Much
 of the code in these notebooks is exploratory; below are the
@@ -336,10 +336,12 @@ extracted):
   <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/8b_2d_dipole_fitting_with_new_constraints.ipynb>`__,
   including error contours.
 
-Additional random dipole characterization thoughts
+Appendix II. Additional random dipole characterization thoughts
 ====================================
 
-... and questions are `here <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/README.md>`__ (in no particular order).
+An informal list of ideas, thoughts and questions (in no particular
+order) are located separately, `here
+<https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/README.md>`__.
 
 
 .. |Figure 1| image:: /_static/figure_01.png
