@@ -56,11 +56,29 @@
        complications <#generic-dipole-fitting-complications>`__
     -  `Possible solutions and tests <#possible-solutions-and-tests>`__
 
-Summary of current implementation (``ip_diffim``, ``dipoleMeasurement``)
+Abstract
+========
+
+In image subtraction analysis (also called "difference image
+analysis", or DIA), an observation image is subtracted from a template
+image in order to identify transients from either image. To perform
+such analysis, the observation must be astrometrically aligned to the
+template image, and the PSFs of the two images are matched. Arising
+primarily due to slight astrometric alignment or PSF matching errors
+between the two images, flux "dipoles" are a common artifact often
+observed in image differences (and even if these issues were perfectly
+corrected, unless the two images were obtained at similar zenith
+distances, differential chromatic refraction [DCR] would still lead to
+such artifacts). These dipoles will lead to false detections of
+transients unless correctly identified and eliminated. Moreover,
+accurate measurement of the flux dipoles can enable evaluation of
+methods for mitigating the processes which caused them.
+
+Summary of existing LSST stack implementation (``ip_diffim``, ``dipoleMeasurement``)
 =========================================================
 
-The current dipole measurement task is intialized with
-``SourceDetection`` performed on the image difference, in both
+The current dipole measurement task in the LSST stack is intialized
+with ``SourceDetection`` performed on the image difference, in both
 positive and negative modes to identify significant pos. and
 neg. sources. These pos. and neg. source catalogs are merged to
 identify candidate dipoles with overlapping pos./neg. footprints. The
@@ -68,50 +86,59 @@ measurement task then performs two separate measurements on these
 dipole candidates (i.e., those footprints with two sources):
 
 1. A "naive" dipole measurement which computes a 3x3 weighted moment
-   around the nominal centroids of each peak in the Source
-   Footprint. It estimates the pos./neg. fluxes correspondingly as
+   around the nominal centroids of each peak in the `Source`
+   `Footprint`. It estimates the pos./neg. fluxes correspondingly as
    sums of the pos./neg. pixel values within the merged footprint.
 2. Measurements resulting from a weighted least-squares joint (dual)
-   PSF model fit to the negative and positive lobe
+   PSF model fit to the negative and positive lobes
    simultaneously. This fit simultaneously solves for the negative and
    positive lobe centroids and fluxes using non-linear least squares
-   minimization.
+   minimization. The existing method is implementated in `C++` and
+   uses the `minuit2` `C++` library with standard parameters
+   (tolerances) for minimization of six parameters: two centroids and
+   two fluxes.
 
-The two measurements are performed independently and do not inform
-each other (as I am aware); in other words the centroids and fluxes
-from the naive dipole measurement are not used to initialize the
-starting parameters in the least-squares minimization.
+The two measurements are performed independently and do not appear
+inform each other; in other words the centroids and fluxes from the
+naive dipole measurement are not used to initialize the starting
+parameters in the least-squares minimization.
 
 Evaluation of dipole fitting accuracy, robustness
 =====================================
 
-We implemented a faux dipole generation routine (separate from LSST
-code, i.e., using ``numpy`` only) with a double Gaussian PSF (default
-sigma 2.0; see `notebooks <https://github.com/lsst-dm/dmtn-007/tree/master/_notebooks>`__ for
+We implemented a faux dipole generation routine with a double Gaussian
+PSF (default sigma 2.0 pixels; see `notebooks
+<https://github.com/lsst-dm/dmtn-007/tree/master/_notebooks>`__ for
 additional parameters) and realistic non-background-limited (Poisson)
 noise. We then implemented a separate 2-D dipole fitting function in
-"pure" python (we used the ``lmfit`` package, which is basically a
-wrapper around ``scipy.optimize.leastsq()``). The dipole (and the
-function which is minimized) is generated using a 2-D double Gaussian.
+"pure" python (we used the ``lmfit`` package, which is a wrapper
+around ``scipy.optimize.leastsq()`` that allows for parameter
+constraints and additional useful tools for evaluating model fit
+accuracy and quality). The dipole (and the function which is
+minimized) is generated using a `Psf` as implemented in the LSST
+stack.
 
 Interesting findings include:
 
-1. Surprisingly, the "pure python" optimization is nearly twice as
-   fast as the ``dipoleMeasurement`` implementation. Some of the
-   reasons for this may lie in putative ``dipoleMeasurement`` issues
-   described above.
+1. Surprisingly, the "pure python" optimization is roughly as fast as
+   the existing ``dipoleMeasurement`` implementation. Further
+   investigation and timings of the existing implementation showed
+   that it performed a complete optimization of a single dipole in
+   $\sim 20$ ms. This runtime could potentially be sped up by a
+   factor of $\sim 2$ by improving parameter boxing and
+   initialization.
 2. Using similar constraints (i.e., none), the "pure python"
    optimization results in model fits with similar characteristics to
    those of the ``dipoleMeasurement`` code. For example, a plot of
    recovered x-coordinate of dipoles of fixed flux with gradually
-   increasing separations is shown here:
+   increasing separations is shown below:
 
  |Figure 1|
 
-Note in all figures, including this one, "New" refers to the "pure
+Note that in all figures, including this one, "New" refers to the "pure
 python" dipole fitting routine, and "Old" refers to the fitting in the
 existing ``dipoleMeasurement`` code. These are for (default) PSFs with
-sigma of 2.0. All units are pixels.
+$\sigma=2.0$. All units are pixels.
 
 **For all figures, click on the image to see a larger version for easier
 reading of axis values.**
@@ -119,14 +146,15 @@ reading of axis values.**
 A primary result of comparisons of both dipole fitting routines showed
 that if unconstrained, they would have difficulty finding accurate
 fluxes (and separations) at separations smaller than ~1 sigma. This is
-best shown below, where we plotted the fitted dipole fluxes as a
-function of dipole separation for a number of realizations per
-separation (and input flux of 3000).
+best shown below, in a plot of fitted dipole fluxes as a function of
+dipole separation for a number of realizations per separation (and
+input flux of 3000).
 
  |Figure 2|
 
-Here, 'pos'itive and 'neg'ative lobe parameters are shown side-by-side
-in the same (positive) flux axis.
+Here, `pos` -itive and `neg` -ative lobe flux estimates are shown
+side-by-side in blue and yellow respectively, on the same (positive)
+flux axis.
 
 Below we investigate this issue and find that it arises from the extreme
 covariance between the dipole separation and flux parameters, which
@@ -138,9 +166,9 @@ Additional comparisons may be found in the `IPython notebooks
 Putative issues with the ``dipoleMeasurement`` PSF fitting algorithm
 ====================================================================
 
-The PSF fitting is slow. It takes ~60ms for some optimizations on my
-fast Macbook Pro (longer times, especially for closely-separated
-dipoles).
+The PSF fitting is slow. It takes ~20ms per dipole for most
+measurements on my fast Macbook Pro (longer times, especially for
+closely-separated dipoles).
 
 Why is it slow? Thoughts on possible reasons (they will need to be
 evaluated further if deemed important):
@@ -153,12 +181,13 @@ evaluated further if deemed important):
    vectorized ``afw::Image`` function calls).
 2. It spends a lot of time floating around near the minimum and perhaps
    can be cut off more quickly (note this may be exacerbated by (1.)).
-3. Perhaps the starting parameters (derived from the heavy footprints)
-   could be made more accurate. At least it looks like the starting flux
-   values are being initialized from the peak pixel value in the
+3. The starting parameters (derived from the input source footprints)
+   could be made more accurate. At least it appears that the starting
+   flux values are initialized from the peak pixel value in the
    footprint, rather than (an estimate of) the source flux.
-4. ``chi2`` is computed over the entire footprint bounding box (confirm
-   this?) rather than the inner 2,3,4, or 5 sigma of the PSF.
+4. ``chi2`` is computed over the entire footprint bounding box
+   (confirm this?) rather than within just the footprint itself or
+   just the inner 2,3,4, or 5 sigma of the PSF.
 5. Some calculations are computed each time during minimization (in
    ``chi2`` function) that can be moved outside (not sure if these
    calc's are really expensive though).
@@ -168,8 +197,8 @@ evaluated further if deemed important):
    this is also likely to increase fitting accuracy (see below).
 
 Note: It seems that the dipole fit is a lot faster for dipoles of
-greater separation than for those that are closer (it seems the
-optimization [via ``minuit``] takes longer to converge).
+greater separation than for those that are closer (apparently, the
+optimization [via ``minuit2``] takes longer to converge).
 
 Generic dipole fitting complications
 ====================================
@@ -184,8 +213,8 @@ Here is an example:
  |Figure 3|
 
 There are many such examples, and this strong covariance between
-amplitude (or flux) and dipole separation is most easiest shown by
-plotting error contours from a `least-squares fit to simulated 1-d
+amplitude (or flux) and dipole separation is most easily shown by
+plotting error contours from a least-squares fit to simulated 1-d
 dipole data:
 
  |Figure 4|
@@ -216,7 +245,9 @@ on top of bright backgrounds (or backgrounds with large gradients),
 such as cases of a faint dipole superimposed on a bright-ish
 background galaxy. But these cases will be rare, and I believe we can
 adjust the weighting of the pre-subtracted image data (i.e., in [2]
-above) to compensate (see below).
+above) to compensate (see below). An alternative that we will
+investigate below is including in the fit parameters for a linear
+gradient in the pre-subtracted images as well.
 
 As an example, I performed a fit to the same data as shown above, but
 included the "pre-subtracted" data as two additional planes. In this
@@ -232,11 +263,11 @@ constrain the fit and reduce the degeneracy.
 I believe that this is a possible way forward in the dipole
 characterization task in ``dipoleMeasurement``. The primary drawback
 is if the source falls on a bright background or a background with a
-steep gradient - which is what we do the ``imDiff`` for anyway - then
-the pre-subtraction data may provide an inaccurate measure of the
+steep gradient - which is why we do the DIA for in the first place -
+then the pre-subtraction data may provide an inaccurate measure of the
 original source. This will also require passing the two
 pre-subtraction planes (and their variance planes) to the dipole
-characterization task.
+characterization task, and thus a potential slow-down of 3x.
 
 *Recommendation:* Test the dipole fitting including using the additional
 (pre-subtraction) data planes, including simulating bright and
@@ -287,6 +318,10 @@ compared with the similar one shown `above <#figure2>`__, generated
 without any constraint).
 
  |Figure 13|
+
+`DipoleMeasurementTask` refactored as `DipoleFitTask`: implementation details
+====================================
+
 
 Additional recommendations and tests
 ====================================
