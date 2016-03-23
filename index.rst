@@ -342,11 +342,24 @@ time. However, we have implemented the capability of fitting up to a
 second-order polynomial gradient (i.e, 6 additional parameters) as an
 option, as we describe below.
 
-`DipoleMeasurementTask` refactored as `DipoleFitTask`: implementation details
+``DipoleMeasurementTask`` refactored as ``DipoleFitTask``: implementation details
 ====================================
 
+As currently implemented, the new ``DipoleFitTask`` is a subclass of
+``SingleFrameMeasurementTask`` with a new ``run`` method which accepts
+separate ``posImage`` and ``negImage`` afw.image.Exposure parameters
+in addition to the default exposure. There is a corresponding
+``DipoleFitPlugin`` with a ``measure`` method that also accepts the
+additional two exposures as parameters.
 
-Additional recommendations and tests
+The configuration of the new ``DipoleFitTask`` is handled by a
+``DipoleFitConfig`` which contains parameters which affect the
+least-squares optimization and thresholds for using the fit results to
+classify the source as an actual dipole.
+
+The algorithm itself is
+
+Further recommendations, implementation necessities, and future tests
 ====================================
 
 1. Better starting parameters for fluxes and background gradient
@@ -358,9 +371,46 @@ Additional recommendations and tests
    <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb>`__
    possibly more robust and/or more efficient minimization?
 4. Only fit dipole parameters using data **inside** footprint and
-   background parameters **outside** footprint.
+   background parameters **outside** footprint (but inside footprint bounding box).
+5. Correct normalization of least-squares weights based on variance
+   planes. Currently, the variance in the convolved subtracted image
+   is questionable, and the variance in the diffim does not seem to
+   correctly reflect the variance in the pre-subtraction images. Until
+   we get this right, the $\chi^2$ estimates will be wrong.
 
-Appendix I. Putative issues with the existing ``dipoleMeasurement`` PSF fitting algorithm
+Appendix I. IPython notebooks
+=================
+
+All figures and methods investigated for this report were generated
+using IPython notebooks. The relevant notebooks may be found `in this
+repo
+<https://github.com/lsst-dm/dmtn-007/tree/master/_notebooks/>`__. Much
+of the code in these notebooks is exploratory; below are the
+highlights (i.e., the ones from which the figures of this report were
+extracted):
+
+* `Final, versions of direct, benchmarked comparisons
+  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/7b_compare_new_and_old_dipole_fitting.ipynb>`__
+  between new "pure python" dipole fitting routines and existing
+  ``ip_diffim`` codes on sample dipoles with realistic noise. This
+  notebook does not include the "constrained" optimizations but does
+  include bounding boxes on parameters during optimization.
+
+* `Demonstration of constructing dipole fit error profiles
+  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/7c_plot_dipole_fit_error_contours.ipynb>`__,
+  revealing covariance between dipole source flux and separation.
+
+* `Tests using simplified 1-d dipoles
+  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/8a_1d_dipole_fitting_and_contours.ipynb>`__,
+  including demonstrations of flux/separation covariance and
+  integration of pre-subtraction data to alleviate the degeneracy.
+
+* `Update the 2-D dipole fits to include the ability to constrain fit
+  parameters using pre-subtraction data
+  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/8b_2d_dipole_fitting_with_new_constraints.ipynb>`__,
+  including error contours.
+
+Appendix II. Putative issues with the existing ``dipoleMeasurement`` PSF fitting algorithm
 ====================================================================
 
 The PSF fitting is slow. It takes ~20ms per dipole for most
@@ -396,38 +446,6 @@ evaluated further if deemed important):
 Note: It seems that the dipole fit is a lot faster for dipoles of
 greater separation than for those that are closer (apparently, the
 optimization [via ``minuit2``] takes longer to converge).
-
-Appendix II. IPython notebooks
-=================
-
-All figures and methods investigated for this report were generated
-using IPython notebooks. The relevant notebooks may be found `in this
-repo
-<https://github.com/lsst-dm/dmtn-007/tree/master/_notebooks/>`__. Much
-of the code in these notebooks is exploratory; below are the
-highlights (i.e., the ones from which the figures of this report were
-extracted):
-
-* `Final, versions of direct, benchmarked comparisons
-  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/7b_compare_new_and_old_dipole_fitting.ipynb>`__
-  between new "pure python" dipole fitting routines and existing
-  ``ip_diffim`` codes on sample dipoles with realistic noise. This
-  notebook does not include the "constrained" optimizations but does
-  include bounding boxes on parameters during optimization.
-
-* `Demonstration of constructing dipole fit error profiles
-  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/7c_plot_dipole_fit_error_contours.ipynb>`__,
-  revealing covariance between dipole source flux and separation.
-
-* `Tests using simplified 1-d dipoles
-  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/8a_1d_dipole_fitting_and_contours.ipynb>`__,
-  including demonstrations of flux/separation covariance and
-  integration of pre-subtraction data to alleviate the degeneracy.
-
-* `Update the 2-D dipole fits to include the ability to constrain fit
-  parameters using pre-subtraction data
-  <https://github.com/lsst-dm/dmtn-007/blob/master/_notebooks/8b_2d_dipole_fitting_with_new_constraints.ipynb>`__,
-  including error contours.
 
 Appendix III. Additional random dipole characterization thoughts
 ====================================
