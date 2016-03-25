@@ -354,10 +354,61 @@ additional two exposures as parameters.
 
 The configuration of the new ``DipoleFitTask`` is handled by a
 ``DipoleFitConfig`` which contains parameters which affect the
-least-squares optimization and thresholds for using the fit results to
-classify the source as an actual dipole.
+least-squares optimization (weights, tolerances and background
+gradient parameterization), and thresholds for using the fit results
+to classify the source as an actual dipole.
 
-The algorithm itself is
+The algorithm itself utilizes the ``lmfit`` `python package`
+<http://lmfit.github.io/lmfit-py>`__ to perform non-linear
+least-squares optimization. As mentioned above, ``lmfit`` provides a
+wrapper around the Levenberg-Marquardt implementation provided by
+``scipy.optimize.leastsq()``, and additionally allows for parameter
+constraints and additional useful tools for evaluating model fit
+accuracy and quality. These latter features will be useful for
+improving optimization results, as well as for assessing whether an
+apparent dipole source is truly described by the dipole model.
+
+The dipole model is parameterized by the floating-point pixel
+centroids of the positive lobes (four parameters) and their fluxes
+(two additional parameters, unless the constraint is imposed that both
+lobes' fluxes are equal). It is constructed using the ``Psf`` which
+has been previously characterized for the ``diffim``. Typically the
+``Psf`` of the `diffim` will be identical to those of the two
+pre-subtraction images which have been PSF-matched in a prior
+step. The background gradients in the two pre-subtraction images are
+presumed to be identical and thus they add either one, three or six
+additional parameters for a 0th, 1st, or 2nd-order polynomial model
+(1st is set as the default).
+
+Parameter initialization is an important factor affecting robustness
+of the optimization. The initial centroids are set as the pixel
+coordinates of the peak (negative and positive) measurements in the
+footprint. Flux(es) are initialized to the total absolute signal
+within the pixel (i.e., $|\sum{ADU}|/2$). Backgrounds are assumed to
+be zero for the `diffim`, and for the pre-subtraction images are
+initialized to the median pixel value within the footprint, with zero
+slope (more accurate pre-estimation of the background slopes could be
+a point of future improvement).
+
+While generally the optimization is robust given the parameter
+initialization described above, we also impose bounds on their values,
+which additionally improves the estimation and prevents the
+optimization from leading to unrealistic values in rare cases. These
+bounds include constraining the dipole centroids to remain within $k
+\times \sigma(PSF)$ of their initial values (where $k$ is a tuneable
+parameter, currently set to 5), and constraining the fluxes to be
+positive.
+
+Finally, the algorithm passes the above model, parameters, and their
+initial values and constraints to the ``lmfit.fit`` method. It should
+be noted that ``lmfit.fit`` computes the weighted $\chi^2$ statistic
+internally, and we simply supply the function that generates the model
+given the parameters. The resulting parameter estimates and their
+standard errors, and the model fit $\chi^{2}$, $\chi^{2}_{\nu}, are
+extracted and all results are returned by the algorithm. Additional
+estimates of metaparameters such as dipole orientation and separation,
+overall centroid, and SNR are computed separately by the
+``DipoleFitPlugin`` and added to the source record.
 
 Further recommendations, implementation necessities, and future tests
 ====================================
@@ -367,9 +418,11 @@ Further recommendations, implementation necessities, and future tests
    surrounding the dipole.
 2. Evaluate the necessity for separate parameters for pos- and neg-
    images/dipole lobes.
-3. Investigate other optimizers, including `iminuit`
+3. Investigate other optimizers, including ``iminuit``
    <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb>`__
-   possibly more robust and/or more efficient minimization?
+   possibly more robust and/or more efficient minimization? Initial
+   tests suggest that ``iminuit`` is actually slightly less efficient
+   than the current ``lmfit``-based optimization.
 4. Only fit dipole parameters using data **inside** footprint and
    background parameters **outside** footprint (but inside footprint bounding box).
 5. Correct normalization of least-squares weights based on variance
@@ -413,7 +466,7 @@ extracted):
 Appendix II. Putative issues with the existing ``dipoleMeasurement`` PSF fitting algorithm
 ====================================================================
 
-The PSF fitting is slow. It takes ~20ms per dipole for most
+The dipole PSF fitting is slow. It takes ~20ms per dipole for most
 measurements on my fast Macbook Pro (longer times, especially for
 closely-separated dipoles).
 
