@@ -146,6 +146,7 @@ Interesting findings include:
 
 .. figure:: /_static/figure_01.png
     :name: figure_1
+    :target: _images/figure_01.png
 
     Comparison of recovered dipole centroid x-coordinates for the
     "New" pure-python dipole fitting routine, and the ("Old") existing
@@ -154,9 +155,7 @@ Interesting findings include:
     including this one, "New" refers to the "pure python" dipole
     fitting routine, and "Old" refers to the fitting in the existing
     ``dipoleMeasurement`` code. These are for (default) PSFs with
-    :math:`\sigma_{PSF}=2.0`. All units are pixels. (Click
-    `here <_images/figure_01.png>`__ to view a larger version for easier
-    reading of axis values.)
+    :math:`\sigma_{PSF}=2.0`. All spatial units are pixels.
 
 A primary result of comparisons of both dipole fitting routines showed
 that if unconstrained, they would have difficulty measuring accurate
@@ -167,6 +166,7 @@ realizations per separation (and input flux of 3000).
 
 .. figure:: /_static/figure_02.png
     :name: figure_2
+    :target: _images/figure_02.png
 
     Comparison of recovered dipole fluxes as a function of dipole
     separation for the "New", and the "Old" (existing)
@@ -177,8 +177,7 @@ realizations per separation (and input flux of 3000).
     axis. Because in all cases the source flux was set at 3000, we
     expect all measured fluxes to have the same value. This clearly
     breaks down when the dipole separation falls below the PSF
-    :math:`\sigma_{PSF}`. (Click `here <_images/figure_02.png>`__ to
-    view a larger version for easier reading of axis values.)
+    :math:`\sigma_{PSF}`.
 
 Below we investigate this issue and find that it arises from the high
 covariance between the dipole separation and source flux, which
@@ -200,13 +199,12 @@ An example is shown in :numref:`figure_3`:
 .. figure:: /_static/figure_03.png
    :width: 60 %
    :name: figure_3
+    :target: _images/figure_03.png
 
    Two example 1-d dipoles exemplifying covariance between dipole flux
    (here, parameterized by ``amp``) and separation
    (``sep``). Although the parameters are significantly different,
-   the dipoles themselves are indistinguishable. (Click `here
-   <_images/figure_03.png>`__ to view a larger version for easier
-   reading of axis values.)
+   the dipoles themselves are indistinguishable.
 
 There are many such examples, and this strong covariance between
 amplitude (or flux) and dipole separation is most easily shown by
@@ -216,24 +214,24 @@ dipole data, such as the one in :numref:`figure_4`.
 .. figure:: /_static/figure_04.png
    :width: 60 %
    :name: figure_4
+    :target: _images/figure_04.png
 
    Example simulated data (points) based upon parametric 1-d dipole
    (blue dashed line) and resulting least-squares fit (red dotted
-   line). (Click `here <_images/figure_04.png>`__ to view
-   a larger version for easier reading of axis values.)
+   line).
 
 The error contours for this fit are shown in :numref:`figure_5`.
 
 .. figure:: /_static/figure_05.png
    :width: 60 %
    :name: figure_5
+    :target: _images/figure_05.png
 
    :math:`\chi^2` error contours for a dipole fit to the data in
    :numref:`figure_4`. The blue dot indicates the input parameters
    (used to generate the data), the yellow dot shows the starting
    parameters for the minimization and the green dot indicates the
-   least-squares parameters. (Click `here <_images/figure_05.png>`__
-   to view a larger version for easier reading of axis values.)
+   least-squares parameters.
 
 Possible solutions and tests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -273,12 +271,12 @@ are very close to the input.
 .. figure:: /_static/figure_06.png
    :width: 60 %
    :name: figure_6
+    :target: _images/figure_06.png
 
    :math:`\chi^2` error contours for a dipole fit to the data in
    :numref:`figure_4` (see :numref:`figure_5` for a description). In
    this case, the pre-subtraction data were included to constrain
-   the fit. (Click `here <_images/figure_06.png>`__ to view a larger
-   version for easier reading of axis values.)
+   the fit.
 
 The same degeneracy as described above for 1-d dipoles is also seen in
 simulated 2-d dipoles, as shown in `this notebook
@@ -289,20 +287,20 @@ in the image:
 
 .. figure:: /_static/figure_07.png
     :name: figure_7
+    :target: _images/figure_07.png
 
     Simulated 2-d dipole and masks showing detected (positive and
     negative) sources. Input parameters for this example: flux = 3000
-    ADU; separation = 0.4 pixels. (Click `here
-    <_images/figure_07.png>`__ to view a larger version.)
+    ADU; separation = 0.4 pixels.
 
 The least-squares model fit and residuals are shown in :numref:`figure_8`:
 
 .. figure:: /_static/figure_08.png
    :name: figure_8
+    :target: _images/figure_08.png
 
    Model fit and residuals for simulated 2-d dipole shown in
-   :numref:`figure_7`. (Click `here <_images/figure_08.png>`__ to
-   view a larger version.)
+   :numref:`figure_7`.
 
 A contour plot of :math:`\chi^2` error contours (:numref:`figure_9`)
 shows a similar degeneracy as that in the 1-d dipoles
@@ -313,17 +311,17 @@ points generally toward the dipole centroid (bottom):
 
 .. figure:: /_static/figure_09.png
    :width: 50%
+   :target: _images/figure_09.png
 .. figure:: /_static/figure_10.png
    :width: 50%
    :name: figure_9
+   :target: _images/figure_10.png
 
    :math:`\chi^2` error contours for a 2-d dipole fit to the data in
    :numref:`figure_7`, analogous to :numref:`figure_5`. Top: error
    contours showing covariance between dipole flux and x-coordinate
    of the positive lobe. Bottom: contours for x- and y- coordinate of
-   the positive lobe. (Click `here <_images/figure_09.png>`__ and
-   `here <_images/figure_10.png>`__ to view :a larger version for
-   easier reading of axis values.)
+   the positive lobe.
 
 These contours appear very similar for fits to closely-separated and
 widely-separated dipoles of (otherwise) similar parameterization (see
@@ -381,18 +379,18 @@ difference in axis limits):
 
 .. figure:: /_static/figure_11.png
    :width: 50%
+   :target: _images/figure_11.png
 .. figure:: /_static/figure_12.png
    :width: 50%
    :name: figure_10
+   :target: _images/figure_12.png
 
    :math:`\chi^2` error contours for a 2-d dipole fit to the data in
    :numref:`figure_7`, analogous to :numref:`figure_9`, but in this
    case integrating the 5%-weighted `pre-subtraction` image
    data. Top: error contours showing covariance between dipole flux
    and x-coordinate of the positive lobe. Bottom: contours for x- and
-   y- coordinate of the positive lobe. (Click `here
-   <_images/figure_11.png>`__ and `here <_images/figure_12.png>`__ to
-   view a larger version for easier reading of axis values.)
+   y- coordinate of the positive lobe.
 
 In this case, adding the 5% weighted constraint to the fit
 unsurprisingly improves the flux measurements for a variety of dipole
@@ -401,14 +399,13 @@ compared with :numref:`figure_2`, generated with no constraint).
 
 .. figure:: /_static/figure_13.png
    :name: figure_11
+   :target: _images/figure_13.png
 
    Comparison of recovered dipole fluxes as a function of dipole
    separation for the "New" constrained method, and the "Old"
    (existing) ``dipoleMeasurement`` routines, for dipoles with fixed
    flux (3000) and gradually increasing separations (pixels). See
-   :numref:`figure_2` for comparison. (Click `here
-   <_images/figure_13.png>`__ to view a larger version for easier
-   reading of axis values.)
+   :numref:`figure_2` for comparison.
 
 Likewise, dipole separations are more accurately measured as well.
 
@@ -427,6 +424,7 @@ increase the likelihood of inaccurate results.
 
 .. figure:: /_static/figure_14.png
    :name: figure_12
+   :target: _images/figure_14.png
 
    Comparison of recovered dipole fluxes as a function of dipole
    separation for the "New" constrained method, versus the "Old"
@@ -435,8 +433,7 @@ increase the likelihood of inaccurate results.
    increasing separations (pixels). In this case, we did not include
    any parameter estimation to measure the background gradients in the
    pre-subtraction images. See :numref:`figure_11` for
-   comparison. (Click `here <_images/figure_14.png>`__ to view a
-   larger version for easier reading of axis values.)
+   comparison.
 
 However, once we incorporated estimation of background parameters (in
 this case, three parameters for a linear background gradient), the fit
@@ -445,6 +442,7 @@ accuracy returned to its nominal level, as shown below in
 
 .. figure:: /_static/figure_15.png
    :name: figure_13
+   :target: _images/figure_15.png
 
    Comparison of recovered dipole fluxes as a function of dipole
    separation for the "New" constrained method, versus the "Old"
@@ -453,8 +451,7 @@ accuracy returned to its nominal level, as shown below in
    gradually increasing separations (pixels). In contrast to
    :numref:`figure_12`, here we did include 1st-order polynomial
    parameters to estimate and remove the background gradients in the
-   pre-subtraction images. (Click `here <_images/figure_15.png>`__ to
-   view a larger version for easier reading of axis values.)
+   pre-subtraction images.
 
 We performed additional evaluations of fit accuracy as a function of
 gradient steepness, and found that, at least for simple, linear
