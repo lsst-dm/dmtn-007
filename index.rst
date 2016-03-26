@@ -479,7 +479,7 @@ least-squares optimization (weights, tolerances and background
 gradient parameterization), and thresholds for using the fit results
 to classify the source as an actual dipole.
 
-The algorithm itself utilizes the ``lmfit`` `python package`
+The algorithm itself utilizes the ``lmfit`` `python package
 <http://lmfit.github.io/lmfit-py>`__ to perform non-linear
 least-squares optimization. As mentioned above, ``lmfit`` provides a
 wrapper around the Levenberg-Marquardt implementation provided by
