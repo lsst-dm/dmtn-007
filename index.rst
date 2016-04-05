@@ -496,20 +496,26 @@ lobes' fluxes are equal). It is constructed using the ``Psf`` which
 has been previously characterized for the `diffim`. Typically the
 ``Psf`` of the `diffim` will be identical to those of the two
 pre-subtraction images which have been PSF-matched in a prior
-step. The background gradients in the two pre-subtraction images are
+step.
+
+The background gradients in the two pre-subtraction images are
 presumed to be identical and thus they add either one, three or six
 additional parameters for a 0th, 1st, or 2nd-order polynomial model
-(default is 1st).
+(default is 1st). The current (updated) implementation now pre-fits
+the background gradient to only the pixels outside of the footprint
+(but within the footprint bounding box) via least-squares
+(``numpy.linalg.lstsq``) which is significantly more efficient than
+including the gradient as part of a joint nonlinear dipole fit. Thus,
+the gradient is removed (subtracted) from the pre-subtraction image
+data prior to conducting the dipole parameter estimation.
 
 Parameter initialization is an important factor affecting robustness
 of the optimization. The initial centroids are set as the pixel
 coordinates of the peak (negative and positive) measurements in the
-footprint. Flux(es) are initialized to the total absolute signal
-within the pixel (i.e., :math:`\|\sum{ADU}\|/2`). Backgrounds are assumed to
-be zero for the `diffim`, and for the pre-subtraction images are
-initialized to the median pixel value within the footprint, with zero
-slope (more accurate pre-estimation of the background slopes could be
-a point of future improvement).
+footprint. Flux(es) are initialized to the estimated total flux in the
+background-subtracted pre-subtraction images. The backgrounds are all
+assumed to be zero for the `diffim`, as well as for the background
+gradient-subtracted, pre-subtraction images.
 
 While generally the optimization is robust given the parameter
 initialization described above, we also impose bounds on their values,
@@ -536,18 +542,19 @@ Further recommendations, implementation necessities, and future tests
 
 1. Better starting parameters for fluxes and background gradient
    fit. Perhaps using a simple linear least-squares fit to the region
-   surrounding the dipole.
+   surrounding the dipole (Update: This is now implemented).
 2. Evaluate the necessity for separate parameters for pos- and neg-
-   images/dipole lobes.
+   dipole lobes.
 3. Utilize the spatially varying ``Psf``, if one exists.
 4. Investigate other optimizers, including `iminuit
    <http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb>`__
-   possibly more robust and/or more efficient minimization? Initial
-   tests suggest that ``iminuit`` is actually slightly less efficient
-   than the current ``lmfit``-based optimization due to increased
-   numbers of function calls which is difficult to tune.
+   possibly more robust and/or more efficient minimization? Update:
+   initial tests suggest that ``iminuit`` is actually slightly less
+   efficient than the current ``lmfit``-based optimization due to
+   increased numbers of function calls which is difficult to tune.
 5. Only fit dipole parameters using data **inside** footprint and
-   background parameters **outside** footprint (but inside footprint bounding box).
+   background parameters **outside** footprint (but inside footprint
+   bounding box). Update: the background is now fit in this way.
 6. Correct normalization of least-squares weights based on variance
    planes. Currently, the variance in the convolved subtracted image
    is questionable, and the variance in the diffim does not seem to
