@@ -1,8 +1,20 @@
 sudo: false
 language: python
-python:
-      - 3.4
-install: "pip install -r requirements.txt"
-script: "make html"
-notifications:
-      email: false
+matrix:
+  include:
+    - python: "3.5"
+      env: LTD_MASON_BUILD=true
+install:
+  - pip install -r requirements.txt
+  - pip install "ltd-mason>=0.2,<0.3"
+script:
+  - sphinx-build -b html -a -n -d _build/doctree . _build/html
+after_success:
+  - ltd-mason-travis --html-dir _build/html
+env:
+  global:
+    - LTD_MASON_BUILD=false  # disable builds in regular text matrix
+    - LTD_MASON_PRODUCT="dmtn-007"
+    # Add AWS and LTD Keeper credentials as encrypted secrets here
+    - secure: "x1gq2+MPzco7lAAXHVTV+/ghosj2FMyFVdT+wXGu/oU6UaIxeMukxmhsTkeM5+1wfaVYOiJDTAaWGRFYnP2BSBPykfTrFouquO8V2JnBCztggzcUwk2LzlQ6UCy1D809OBvaqjy4X/68ouNUBcKmaSvJuxSzScqW0ZWydTAJVhPF2KIyoejBBQHykoG+5sl6MrTp30jV1+DasGTRTWTU9GBkRJV4uGx87qWfVw9rnv8NnQ/Dq8NmPOfYFy/8LTfOrVZOoFAeXQ2cBuVEts3JETig3jNyVBZqx5rbSsvsDVXsRevzP+KTE+RECcbPxeJkgfXYOWKu8W0mzvHPj8FaGjcAuvsijz2Dtellmo17gLTbtX1IJmDLswVusxY2xB8DPx/hQaq2QitbBrdrEJlEXZ5Xop0C+fApKMvjtkkOknmvVKunoYK4jOVbiEihjt/1CC4ArQOsExIeXHtvHTpYVi6/yFqiAf8iT/tzB54EqEFP9Kq7AH7nUdZ4plWT3S0kDW+c1P7Mc7aUZcgbi64NN/XJdQX+TY69IEA1HjNjk1kODI6UWtsL7LCHd10jOoNeCTk1omOz+fhkdXU8NzETAVUdlRj7apbLEPUbGH5MYLGLsXcnR6NrcTUITM6LmbfWWmfcWlDxlXhmWKDwYJkNfPLwmdWE0V3IFhrcUNWifdY="
+    - secure: "zNshM2BniVPI+HXDgjUALObOIIMMjfzqVUskXkr9cXfSexsK8J3cexCTGSaVuLVoNBivaBUoRLl2aYS+t9pKlQud4leTvZ3yX8wnglUIeUea7DmkX+X31A5u4yxw3aSuMBfVErLlEbhtZQcYkdABazkCwGmsSvkg/fD603k9jcfiBwkMCg8uWR3Jozmnx3PDGVPNsrYw9uLItZLPKAX/yTOrjM4F/CQwTs9eLEhcNd8ckNGld73KC9k/8hscPF4jq+iRvKanbXTjh6ELfLIIuaKoNcWB+ZecemQ11sChJq/B+6LhqpqVub29PwCoTyW23q7T3+IB6aRAoBLNoUbq3zjyjwLVK53Ap3zXkbOHjxHZUEkhbNth7Xlw9ffQ/8HT8R0GOIu7gfdtim9TAi30phQiJDpynzl5C59z9/u5CXsj/74xr0LDF3umUEcuOJpauMS6SKPfqfIwQR6H/7mV7dFfSQVGPWBzNhkiR3048AAnv+nGIO2Gff68cQ+MRWOii2Abde8jAJmYOC0N7mvfKY1/0dfsWQV1cJjXQkxF4dqFnHSjP21ilzVsbnZU2AAMiLrS5Y259xM52HOg3raeQC+VANpimyfhBbikdlnkL8Xo33buqNExvhfdX0jZosKvCLpQoDBSqQ4I6+skgzLXskgQonBmgxLH7sokYUJYa6s="
